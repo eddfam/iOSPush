@@ -1,75 +1,83 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-var app = {
-	// Application Constructor
-	initialize: function() {
-		this.bindEvents();
-	},
-	// Bind Event Listeners
-	//
-	// Bind any events that are required on startup. Common events are:
-	// 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
-	// deviceready Event Handler
-	//
-	// The scope of 'this' is the event. In order to call the 'receivedEvent'
-	// function, we must explicitly call 'app.receivedEvent(...);'
-	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
-		window.plugins.pushNotification.register(
-		function(token){
-			alert(token);
-		},
-		function(){
-			alert('Error al registrarse en el servidor APNS');
-		},{
-			"badge":"true",
-			"sound":"true",
-			"alert":"true",
-			"ecb":"onNotificationAPN"
-		});
-	},
-	// Update DOM on a Received Event
-	receivedEvent: function(id) {
-		var parentElement = document.getElementById(id);
-		var listeningElement = parentElement.querySelector('.listening');
-		var receivedElement = parentElement.querySelector('.received');
+$(document).ready(function ( ) {
+    
+    $("#cargando").show();
+    setTimeout(function() {
+        $("#cargando").hide();
+    },3000);
+    setTimeout(function(){
+        $("#views").show();
+    },3000);
+    
+    
+});
+// Init App
+var myApp = new Framework7({
+    modalTitle: 'Framework7',
+    // Enable Material theme
+//    material: true,
+    swipePanel: 'left',
+});
 
-		listeningElement.setAttribute('style', 'display:none;');
-		receivedElement.setAttribute('style', 'display:block;');
+// Expose Internal DOM library
+var $$ = Dom7;
 
-		console.log('Received Event: ' + id);
-	}
-};
-function onNotificationAPN (event) {
-    if (event.alert) {
-       alert(event.alert);
+
+// Add main view
+var mainView = myApp.addView('.view-main', {
+});
+
+var logueado = localStorage.getItem("logueado");
+
+
+if(logueado == "si")
+    {
+        console.log(logueado);
+         window.location =("home.html");
     }
-
-    if (event.sound) {
-        var snd = new Media(event.sound);
-        snd.play();
+   
+else
+    {
+        console.log(logueado);
+        window.location =("#");
     }
-
-    if (event.badge) {
-        window.plugins.pushNotification.setApplicationIconBadgeNumber(function(){}, function(){}, event.badge);
-    }
-}
+$("#login-button").click(function(event){
+            event.preventDefault();
+	        var email = $("#email").val();
+            var password =$("#password").val();
+            function validateEmail(email) { 
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            }
+            
+             if(email==''||email==undefined){
+                 return alert('Ingrese su correo electronico');
+             }else if (!validateEmail(email)) {
+                 return alert('Correo electronico no valido');
+             }else if(password==''||password==undefined){
+                 return alert('Ingrese una contraseña valida');
+             }else{
+                 console.log(window.localStorage.getItem("regId"));
+                 console.log(window.localStorage.getItem("nombreUsuario"));
+                 $.ajax({
+                     url:'http://desde9.esy.es/usuario.php',
+                     type: 'GET',
+                     data: {op:'login', email:email, password:password},
+                     dataType : 'jsonp',
+                     success: function(data) {
+                         if(data.estatus == true){
+                             window.localStorage.setItem("logueado", "si");
+                             console.log(data.mensaje);
+                             alert(data.mensaje);
+                             
+                             window.location =("home.html");
+                         }else{
+                             alert("Error : "+data.mensaje);
+                             console.log(data.mensaje);
+                         }
+                     },error: function(e) {
+                         console.log(JSON.stringify(e));
+                         alert("ERROR TECNICO CON EL SERVICIO, INTENTE DE NUEVO MAS TARDE " +JSON.stringify(e));
+                     }
+                 });
+             }
+        });
