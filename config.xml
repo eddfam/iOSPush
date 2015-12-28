@@ -4,9 +4,9 @@
     version="1.0.0"
     xmlns="http://www.w3.org/ns/widgets" 
     xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>GSM Push</name>
+    <name>GSM iOS Push</name>
     <description>
-Prueba 1 de GCM Push </description>
+Prueba 1 de GCM iOS Push </description>
     <author email="eperez@gruposistecom.com" href="http://phonegap.com">
         GSM - Eduardo
     </author>
