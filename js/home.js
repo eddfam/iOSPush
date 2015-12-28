@@ -69,18 +69,18 @@ ptrNoticias.on('refresh', function (e) {
                 success:function(data){
                     $("#result").html("");
                     //clear();
-                    //add(data);
-                    for(var i in data){
-                    $("#result").append(
-
-                       '<div class="card">'
-                            +'<div class="card-header">'+data[i].titulo+'</div>'
-                            +'<div class="card-content">'
-                            +'<div class="card-content-inner">'+data[i].descripcion+'</div>'
-                            +'</div>'
-                            +'<div class="card-footer">'+data[i].fecha+'</div>'
-                        +'</div>');
-                }
+                    add(data);
+//                    for(var i in data){
+//                    $("#result").append(
+//
+//                       '<div class="card">'
+//                            +'<div class="card-header">'+data[i].titulo+'</div>'
+//                            +'<div class="card-content">'
+//                            +'<div class="card-content-inner">'+data[i].descripcion+'</div>'
+//                            +'</div>'
+//                            +'<div class="card-footer">'+data[i].fecha+'</div>'
+//                        +'</div>');
+//                }
                 }
             });
         
@@ -129,6 +129,59 @@ ptrPublicaciones.on('refresh', function (e) {
         }, 2000);
 });
       });
+
+
+if (window.openDatabase) {
+    var mydb = openDatabase("gsm_ios_push", "0.1", "DB of gsmApp", 100 * 1024 * 1024);
+    mydb.transaction(function (t) {
+        t.executeSql("CREATE TABLE IF NOT EXISTS noticias (id INTEGER PRIMARY KEY AUTOINCREMENT,serverId INTEGER, titulo VARCHAR(90), descripcion VARCHAR(255), fecha VARCHAR(20))");
+    });
+}else{
+    alert("Su dispositivo no soporta Base de Datos local");
+}
+
+function add(datos) {
+    if (mydb){
+        mydb.transaction(function (t){
+            
+            for(var i=0;i<datos.length;i++){
+            t.executeSql("INSERT INTO noticias (serverId, titulo, descripcion, fecha) VALUES (?, ?, ?, ?)", [datos[i].id, datos[i].titulo, datos[i].descripcion, datos[i].fecha]);
+            }
+            mostrar();
+        });
+    } else {
+        alert("db not found, your browser does not support web sql!");
+    }
+}
+function mostrar(){
+    if (mydb){
+        mydb.transaction(function(t){
+            t.executeSql("SELECT * FROM noticias ", [], llenar);
+        });
+    } else {
+        alert("db not found, your browser does not support web sql!");
+    }
+}
+
+function llenar(transaction, results){
+    var listitems = "";
+    var listholder = document.getElementById("result");
+    listholder.innerHTML = "";
+    var i;
+    for(i=0;i<results.rows.length; i++){
+        var row = results.rows.item(i);
+        listholder.innerHTML +=
+            '<div class="card">'
+            +'<div class="card-header">'+row.titulo+'</div>'
+            +'<div class="card-content">'
+            +'<div class="card-content-inner">'+row.descripcion+'</div>'
+            +'</div>'
+            +'<div class="card-footer">'+row.fecha+'</div>'
+            +'</div>';
+    }
+
+}
+
 var app = {
     // Application Constructor
     initialize: function() {
