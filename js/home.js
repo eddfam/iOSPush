@@ -132,7 +132,7 @@ ptrPublicaciones.on('refresh', function (e) {
 
 
 if (window.openDatabase) {
-    var mydb = openDatabase("gsm_ios_push", "0.1", "DB of gsmApp", 100 * 1024 * 1024);
+    var mydb = openDatabase("gsm_ios_push", "0.1", "DB of gsmApp", 5 * 1024 * 1024);
     mydb.transaction(function (t) {
         t.executeSql("CREATE TABLE IF NOT EXISTS noticias (id INTEGER PRIMARY KEY AUTOINCREMENT,serverId INTEGER, titulo VARCHAR(90), descripcion VARCHAR(255), fecha VARCHAR(20))");
     });
