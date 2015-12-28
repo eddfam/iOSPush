@@ -3,7 +3,7 @@
 var myApp = new Framework7({
     modalTitle: 'Framework7',
     // Enable Material theme
-    material: true,
+    //material: true,
     swipePanel: 'left',
 });
 
@@ -150,12 +150,12 @@ function startDB() {
     };
 
     dataBase.onsuccess = function (e) {
-        //alert('Base de datos cargada correctamente');
+        alert('Base de datos cargada correctamente'+e);
 
     };
 
     dataBase.onerror = function (e)  {
-        alert('Error cargando la base de datos');
+        alert('Error cargando la base de datos'+e);
     };
 }
 function add(datos) {
