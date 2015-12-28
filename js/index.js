@@ -1,3 +1,105 @@
+var db;
+
+function indexedDBOk() {
+	return "indexedDB" in window;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	//No support? Go in the corner and pout.
+	if(!indexedDBOk) return;
+
+	var openRequest = indexedDB.open("ios8b",1);
+
+	openRequest.onupgradeneeded = function(e) {
+		var thisDB = e.target.result;
+
+		alert("running onupgradeneeded");
+
+		if(!thisDB.objectStoreNames.contains("people")) {
+			thisDB.createObjectStore("people", {keyPath:"id"});
+		}
+
+		if(!thisDB.objectStoreNames.contains("notes")) {
+			thisDB.createObjectStore("notes", {keyPath:"uid"});
+		}
+
+	}
+
+	openRequest.onsuccess = function(e) {
+		alert("running onsuccess");
+
+		db = e.target.result;
+
+		alert("Current Object Stores");
+		alert(db.objectStoreNames);
+
+		//Listen for add clicks
+		document.querySelector("#addButton").addEventListener("click", addPerson, false);
+	}	
+
+	openRequest.onerror = function(e) {
+		//Do something for the error
+	}
+
+
+},false);
+
+
+function addPerson(e) {
+	alert("About to add person and note");
+
+	var id = Number(document.querySelector("#key").value);
+	
+	//Get a transaction
+	//default for OS list is all, default for type is read
+	var transaction = db.transaction(["people"],"readwrite");
+	//Ask for the objectStore
+	var store = transaction.objectStore("people");
+
+	//Define a person
+	var person = {
+		name:"Ray",
+		created:new Date().toString(),
+		id:id
+	}
+
+	//Perform the add
+	var request = store.add(person);
+
+	request.onerror = function(e) {
+		alert("Error",e.target.error.name);
+		//some type of error handler
+	}
+
+	request.onsuccess = function(e) {
+		alert("Woot! Did it");
+	}
+	
+	//Define a note
+	var note = {
+		note:"note",
+		created:new Date().toString(),
+		uid:id
+	}
+
+	var transaction2 = db.transaction(["notes"],"readwrite");
+	//Ask for the objectStore
+	var store2 = transaction2.objectStore("notes");
+
+	//Perform the add
+	var request2 = store2.add(note);
+
+	request2.onerror = function(e) {
+		alert("Error",e.target.error.name);
+		//some type of error handler
+	}
+
+	request2.onsuccess = function(e) {
+		alert("Woot! Did it");
+	}
+	
+}
 $(document).ready(function ( ) {
     
     $("#cargando").show();

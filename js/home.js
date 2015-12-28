@@ -1,4 +1,4 @@
-      $(document).ready(function () {
+$(document).ready(function () {
 // Init App
 var myApp = new Framework7({
     modalTitle: 'Framework7',
