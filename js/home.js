@@ -68,8 +68,8 @@ ptrNoticias.on('refresh', function (e) {
                 timeout:60000,
                 success:function(data){
                     $("#result").html("");
-                    clear();
-                    add(data);
+                    //clear();
+                    //add(data);
                     for(var i in data){
                     $("#result").append(
 
@@ -131,7 +131,7 @@ ptrPublicaciones.on('refresh', function (e) {
       });
           
           
-          
+ /*         
 var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 var dataBase = null;
             
@@ -245,7 +245,7 @@ function clear() {
     var active = dataBase.result;
     var data = active.transaction(["noticias"], "readwrite");
     var object = data.objectStore("noticias").clear();
-}
+}*/
 
 
 var app = {
@@ -259,7 +259,7 @@ var app = {
     onDeviceReady: function() {
         var push = PushNotification.init({
             "android": {
-                "senderID": "400009158834"
+                //"senderID": "400009158834"
             },
             "ios": {"alert": "true", "badge": "true", "sound": "true"}, 
             "windows": {} 
@@ -276,7 +276,7 @@ var app = {
             else if(data.title=='Noticias')
                 {
                     mainView.router.load({pageName: 'noticias'});
-                    cargarIDB();
+                    //cargarIDB();
                 }
             else if(data.title=='Notificacion')
                 {
