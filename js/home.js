@@ -168,7 +168,7 @@ function add(datos) {
         name: document.querySelector("#name").value,
         surname: document.querySelector("#surname").value
     });*/
-
+/*
     for(var i=0;i<datos.length;i++){
         var request=object.put({ //Añadimos un nuevo registro en la DB
             titulo:datos[i].titulo,
