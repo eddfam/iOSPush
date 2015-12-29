@@ -68,7 +68,7 @@ ptrNoticias.on('refresh', function (e){
             timeout:60000,
             success:function(data){
                 //$("#result").html("");
-                //clear();
+                borrar();
                 add(data);
             }
         });
@@ -120,7 +120,7 @@ ptrPublicaciones.on('refresh', function (e) {
 if (window.openDatabase) {
     var mydb = openDatabase("gsm_ios_push", "0.1", "DB of gsmApp", 5 * 1024 * 1024);
     mydb.transaction(function (t) {
-        t.executeSql("CREATE TABLE IF NOT EXISTS noticias (id INTEGER PRIMARY KEY AUTOINCREMENT,serverId INTEGER, titulo VARCHAR(90), descripcion VARCHAR(255), fecha VARCHAR(20))");
+        t.executeSql("CREATE TABLE IF NOT EXISTS noticias (serverId INTEGER, titulo VARCHAR(90), descripcion VARCHAR(255), fecha VARCHAR(20))");
     });
 }else{
     alert("Su dispositivo no soporta Base de Datos local");
@@ -167,6 +167,17 @@ function llenar(transaction, results){
     }
 
 }
+function borrar() {
+    //check to ensure the mydb object has been created
+    if (mydb) {
+        //Get all the cars from the database with a select statement, set outputCarList as the callback function for the executeSql command
+        mydb.transaction(function (t) {
+            t.executeSql("DELETE FROM noticias", [], llenar);
+        });
+    } else {
+        alert("db not found, your browser does not support web sql!");
+    }
+}
 
 var app = {
     // Application Constructor
@@ -178,9 +189,7 @@ var app = {
     },
     onDeviceReady: function() {
         var push = PushNotification.init({
-            "android": {
-                //"senderID": "400009158834"
-            },
+            "android": {},
             "ios": {"alert": "true", "badge": "true", "sound": "true"}, 
             "windows": {} 
         });
