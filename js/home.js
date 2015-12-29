@@ -55,39 +55,25 @@ ptrNotificaciones.on('refresh', function (e){
 var ptrNoticias = $$('.pull-to-refresh-content.noticias');
  
 // Add 'refresh' listener on it
-ptrNoticias.on('refresh', function (e) {
-    setTimeout(function () {
+ptrNoticias.on('refresh', function (e){
+    setTimeout(function(){
         $.ajax({
-                url:'http://desde9.esy.es/noticias.php',
-                type:'POST',
-               
-                dataType:'json',
-                error:function(jqXHR,text_status,strError){
-                    alert('no internet connection');
-                }, 
-                timeout:60000,
-                success:function(data){
-                    $("#result").html("");
-                    //clear();
-                    add(data);
-//                    for(var i in data){
-//                    $("#result").append(
-//
-//                       '<div class="card">'
-//                            +'<div class="card-header">'+data[i].titulo+'</div>'
-//                            +'<div class="card-content">'
-//                            +'<div class="card-content-inner">'+data[i].descripcion+'</div>'
-//                            +'</div>'
-//                            +'<div class="card-footer">'+data[i].fecha+'</div>'
-//                        +'</div>');
-//                }
-                }
-            });
-        
-        
-            // When loading done, we need to "close" it
-            myApp.pullToRefreshDone();
-        }, 2000);
+            url:'http://desde9.esy.es/noticias.php',
+            data:'id=',
+            type:'POST',
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no internet connection');
+            },
+            timeout:60000,
+            success:function(data){
+                //$("#result").html("");
+                //clear();
+                add(data);
+            }
+        });
+        myApp.pullToRefreshDone();
+    }, 2000);
 });
 var ptrPublicaciones = $$('.pull-to-refresh-content.publicaciones');
  
@@ -97,7 +83,7 @@ ptrPublicaciones.on('refresh', function (e) {
         $.ajax({
                 url:'http://desde9.esy.es/noticias.php',
                 type:'POST',
-               
+    
                 dataType:'json',
                 error:function(jqXHR,text_status,strError){
                     alert('no internet connection');
