@@ -118,17 +118,31 @@ ptrPublicaciones.on('refresh', function (e) {
 });
     
     
-    var tapped=false
-$("#btnNoticias").on("touchstart",function(e){
+    var tapped=false;
+    
+    $("#btnNoticias").on("touchstart",function(e){
+        if(!tapped){
+            tapped=setTimeout(function(){
+                mostrar()
+                tapped=null
+            },300); //wait 300ms
+        }else{
+            clearTimeout(tapped);
+            tapped=null
+            fromServerNoticias()
+        }
+        e.preventDefault()
+    });
+    $("#btnNotificaciones").on("touchstart",function(e){
     if(!tapped){
       tapped=setTimeout(function(){
-          mostrar()
+          //mostrar()
           tapped=null
       },300); //wait 300ms
     } else {
       clearTimeout(tapped);
       tapped=null
-      fromServerNoticias()
+      fromServerNotificaciones()
     }
     e.preventDefault()
 });
@@ -214,6 +228,36 @@ function borrar() {
         });
         
     }
+function fromServerNotificaciones(){
+    var nc1 = window.localStorage.getItem('nControl');
+          var nc2 = window.localStorage.getItem('nControl2');
+    $.ajax({
+        url:'http://desde9.esy.es/notificaciones.php',
+        type:'GET',
+        data:'type=padre2nc&nControl='+nc1+'&nControl2='+nc2,
+        dataType:'json',
+        error:function(jqXHR,text_status,strError){
+            alert('no internet connection');
+        },
+        timeout:60000,
+        success:function(data){
+            $("#resultNot").html("");
+            //clear();
+            //add(data);
+            for(var i in data){
+                $("#resultNot").append(
+                   '<div class="card">'
+                    //+'<div class="card-header">'+data[i].titulo+'</div>'
+                    +'<div class="card-content">'
+                    +'<div class="card-content-inner">'+data[i].contenido+'</div>'
+                    +'</div>'
+                    +'<div class="card-footer">'+data[i].fecha+'</div>'
+                    +'</div>');
+            }
+        }
+    });
+}
+
 
 var app = {
     // Application Constructor
