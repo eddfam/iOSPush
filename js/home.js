@@ -1,10 +1,10 @@
-$(document).ready(function () {
+$(document).ready(function(){
 // Init App
 var myApp = new Framework7({
     modalTitle: 'Framework7',
     // Enable Material theme
     //material: true,
-    swipePanel: 'left',
+    //swipePanel: 'left',
 });
 
 // Expose Internal DOM library
@@ -50,6 +50,8 @@ ptrNotificaciones.on('refresh', function (e){
         myApp.pullToRefreshDone();
     }, 2000);
 });
+
+    
 
 // Pull to refresh content
 var ptrNoticias = $$('.pull-to-refresh-content.noticias');
@@ -113,6 +115,22 @@ ptrPublicaciones.on('refresh', function (e) {
             // When loading done, we need to "close" it
             myApp.pullToRefreshDone();
         }, 2000);
+});
+    
+    
+    var tapped=false
+$("#btnNoticias").on("touchstart",function(e){
+    if(!tapped){
+      tapped=setTimeout(function(){
+          mostrar()
+          tapped=null
+      },300); //wait 300ms
+    } else {
+      clearTimeout(tapped);
+      tapped=null
+      fromServerNoticias()
+    }
+    e.preventDefault()
 });
       });
 
@@ -178,6 +196,24 @@ function borrar() {
         alert("db not found, your browser does not support web sql!");
     }
 }
+    function fromServerNoticias(){
+        $.ajax({
+            url:'http://desde9.esy.es/noticias.php',
+            data:'id=',
+            type:'POST',
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no internet connection');
+            },
+            timeout:60000,
+            success:function(data){
+                //$("#result").html("");
+                borrar();
+                add(data);
+            }
+        });
+        
+    }
 
 var app = {
     // Application Constructor

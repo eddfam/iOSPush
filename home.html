@@ -127,7 +127,7 @@
             <div class="navbar">
               <div class="navbar-inner">                              
                 <div class="left sliding"><!--<a href="index.html" class="back link"><i class="icon icon-back"></i><span>Back</span></a>--></div>
-    <div class="center sliding">Inicio</div>
+    <div id="titulo" class="center sliding">Inicio</div>
     <div class="right"><a href="#"  data-popup=".demo-popup" class="link open-popup icon-only"><i class="icon icon-bars"></i></a></div>                
               </div>              
             </div>
@@ -135,7 +135,7 @@
             <div class="pages navbar-through">
   <div data-page="tabbar-labels" class="page no-toolbar tabbar-labels-fixed">
     <div class="toolbar tabbar tabbar-labels">
-      <div class="toolbar-inner"><a href="#tab-1" class="tab-link active"><i class="icon ks-tabbar-icon-1"></i><span class="tabbar-label">Information</span></a><a href="#tab-2" class="tab-link"><i class="icon ks-tabbar-icon-2"><span class="badge bg-red">4</span></i><span class="tabbar-label">Inbox</span></a><a href="#tab-3" class="tab-link"><i class="icon ks-tabbar-icon-3"></i><span class="tabbar-label">Upload</span></a><a href="#tab-4" class="tab-link"><i class="icon ks-tabbar-icon-4"><span class="badge bg-green">27</span></i><span class="tabbar-label">Photos</span></a></div>
+      <div class="toolbar-inner"><a id="btnInicio" href="#tab-1" class="tab-link active"><i class="icon ks-tabbar-icon-1"></i><span class="tabbar-label">Inicio</span></a><a id="btnNoticias" href="#tab-2" class="tab-link"><i class="icon ks-tabbar-icon-2"><span class="badge bg-red">4</span></i><span class="tabbar-label">Noticias</span></a><a id="btnNotificaciones" href="#tab-3" class="tab-link"><i class="icon ks-tabbar-icon-3"></i><span class="tabbar-label">Notificaciones</span></a><a id="btnCuenta" href="#tab-4" class="tab-link"><i class="icon ks-tabbar-icon-4"><span class="badge bg-green">27</span></i><span class="tabbar-label">Cuenta</span></a></div>
     </div>
     <div class="page-content">
       <div class="tabs">
@@ -147,8 +147,8 @@
         </div>
         <div id="tab-2" class="tab">
           <div class="content-block">
-            <p>This is tab 2 content</p>
-            <p>Ut ac lobortis lacus, non pellentesque arcu. Quisque sodales sapien malesuada, condimentum nunc at, viverra lacus.</p>
+             <div class="content-block-title">Noticias</div>
+             <div id="result"> <center class="content-block-title">tira para refrescar</center></div>
           </div>
         </div>
         <div id="tab-3" class="tab"> 
@@ -439,14 +439,29 @@
    <script type="text/javascript" src="js/framework7.js"></script>
    <script type="text/javascript" src="js/home.js"></script>
    <script>
-      document.getElementById("nombreUsuario").innerHTML = localStorage.getItem("nombreUsuario");
-     
-    $("#logout").on("click", function(e){
-        e.preventDefault();
-        window.location.replace("index.html");
-        window.localStorage.setItem("logueado", "no");
-        
-    });
+       document.getElementById("nombreUsuario").innerHTML = localStorage.getItem("nombreUsuario");
+       $("#logout").on("click", function(e){
+           e.preventDefault();
+           window.location.replace("index.html");
+           window.localStorage.setItem("logueado", "no");
+       });
+       $("#btnInicio").on("click", function(e){
+           e.preventDefault();
+           $("#titulo").html("Inicio");
+       });
+       $("#btnNoticias").on("click", function(e){
+           e.preventDefault();
+           $("#titulo").html("Noticias");
+       });
+       $("#btnNotificaciones").on("click", function(e){
+           e.preventDefault();
+           $("#titulo").html("Notificaciones");
+       });
+       $("#btnCuenta").on("click", function(e){
+           e.preventDefault();
+           $("#titulo").html("Cuenta");
+       });
+    
       </script>
       <style>
           #popoverUsuario{
