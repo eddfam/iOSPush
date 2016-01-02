@@ -1,64 +1,13 @@
 $(document).ready(function(){
-// Init App
-var myApp = new Framework7({
-    modalTitle: 'Framework7',
-    // Enable Material theme
-    //material: true,
-    //swipePanel: 'left',
-});
-
-// Expose Internal DOM library
-var $$ = Dom7;
-
-// Add main view
-var mainView = myApp.addView('.view-main',{
-    domCache: true //enable inline pages
-});
-// Pull to refresh content
-var ptrNotificaciones = $$('.pull-to-refresh-content.notificaciones');
-// Add 'refresh' listener on it
-          var nc1 = window.localStorage.getItem('nControl');
-          var nc2 = window.localStorage.getItem('nControl2');
-ptrNotificaciones.on('refresh', function (e){
-    setTimeout(function(){
-        $.ajax({
-            url:'http://desde9.esy.es/notificaciones.php',
-            type:'GET',
-            data:'type=padre2nc&nControl='+nc1+'&nControl2='+nc2,
-            dataType:'json',
-            error:function(jqXHR,text_status,strError){
-                alert('no internet connection');
-            },
-            timeout:60000,
-            success:function(data){
-                $("#resultNot").html("");
-                //clear();
-                //add(data);
-                for(var i in data){
-                    $("#resultNot").append(
-                       '<div class="card">'
-                            //+'<div class="card-header">'+data[i].titulo+'</div>'
-                            +'<div class="card-content">'
-                            +'<div class="card-content-inner">'+data[i].contenido+'</div>'
-                            +'</div>'
-                            +'<div class="card-footer">'+data[i].fecha+'</div>'
-                        +'</div>');
-                }
-            }
-        });
-        // When loading done, we need to "close" it
-        myApp.pullToRefreshDone();
-    }, 2000);
-});
-
-    
-
-// Pull to refresh content
-var ptrNoticias = $$('.pull-to-refresh-content.noticias');
- 
-// Add 'refresh' listener on it
-ptrNoticias.on('refresh', function (e){
-    setTimeout(function(){
+    var myApp = new Framework7({
+        modalTitle: 'Framework7',
+    });
+    var $$ = Dom7;
+    var mainView = myApp.addView('.view-main',{
+        domCache: true //enable inline pages
+    });
+    var tapped=false;
+    function fromServerNoticias(){
         $.ajax({
             url:'http://desde9.esy.es/noticias.php',
             data:'id=',
@@ -74,52 +23,7 @@ ptrNoticias.on('refresh', function (e){
                 add(data);
             }
         });
-        myApp.pullToRefreshDone();
-    }, 2000);
-});
-var ptrPublicaciones = $$('.pull-to-refresh-content.publicaciones');
- 
-// Add 'refresh' listener on it
-ptrPublicaciones.on('refresh', function (e) {
-    setTimeout(function () {
-        $.ajax({
-                url:'http://desde9.esy.es/noticias.php',
-                type:'POST',
-    
-                dataType:'json',
-                error:function(jqXHR,text_status,strError){
-                    alert('no internet connection');
-                }, 
-                timeout:60000,
-                success:function(data){
-                    $("#publicaciones").html("");
-//                    clear();
-//                    add(data);
-                    for(var i in data){
-                    $("#publicaciones").append(
-
-                       '<div class="card">'
-                            +'<div class="card-header">'+data[i].titulo+'</div>'
-                            +'<div class="card-content">'
-                            +'<div class="card-content-inner">'+data[i].descripcion+'</div>'
-                            +'</div>'
-                            +'<div class="card-footer">'+data[i].fecha+'</div>'
-                        +'</div>'
-
-                        /*"<li>"+JSON.stringify(data[i].descripcion)+"</li>"*/);
-                }
-                }
-            });
-        
-        
-            // When loading done, we need to "close" it
-            myApp.pullToRefreshDone();
-        }, 2000);
-});
-    
-    
-    var tapped=false;
-    
+    }
     $("#btnNoticias").on("touchstart",function(e){
         if(!tapped){
             tapped=setTimeout(function(){
@@ -133,22 +37,49 @@ ptrPublicaciones.on('refresh', function (e) {
         }
         e.preventDefault()
     });
-    $("#btnNotificaciones").on("touchstart",function(e){
-    if(!tapped){
-      tapped=setTimeout(function(){
-          //mostrar()
-          tapped=null
-      },300); //wait 300ms
-    } else {
-      clearTimeout(tapped);
-      tapped=null
-      fromServerNotificaciones()
+    function fromServerNotificaciones(){
+        var nc1 = window.localStorage.getItem('nControl');
+        var nc2 = window.localStorage.getItem('nControl2');
+        $.ajax({
+            url:'http://desde9.esy.es/notificaciones.php',
+            type:'GET',
+            data:'type=padre2nc&nControl='+nc1+'&nControl2='+nc2,
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no internet connection');
+            },
+            timeout:60000,
+            success:function(data){
+                var listholder = document.getElementById("resultNot");
+                listholder.innerHTML = "";
+                //clear();
+                //add(data);
+                for(var i in data){
+                    listholder.innerHTML +=
+                        '<div class="card">'
+                        +'<div class="card-content">'
+                        +'<div class="card-content-inner">'+data[i].contenido+'</div>'
+                        +'</div>'
+                        +'<div class="card-footer">'+data[i].fecha+'</div>'
+                        +'</div>';
+                }listholder.style.marginBottom='60px';
+            }
+        });
     }
-    e.preventDefault()
+    $("#btnNotificaciones").on("touchstart",function(e){
+        if(!tapped){
+            tapped=setTimeout(function(){
+                //mostrar();
+                tapped=null;
+            },300); //wait 300ms
+        }else{
+            clearTimeout(tapped);
+            tapped=null;
+            fromServerNotificaciones();
+        }
+        e.preventDefault();
+    });
 });
-      });
-
-
 if (window.openDatabase) {
     var mydb = openDatabase("gsm_ios_push", "0.1", "DB of gsmApp", 5 * 1024 * 1024);
     mydb.transaction(function (t) {
@@ -157,7 +88,6 @@ if (window.openDatabase) {
 }else{
     alert("Su dispositivo no soporta Base de Datos local");
 }
-
 function add(datos) {
     if (mydb){
         mydb.transaction(function (t){
@@ -180,9 +110,8 @@ function mostrar(){
         alert("db not found, your browser does not support web sql!");
     }
 }
-
 function llenar(transaction, results){
-    var listitems = "";
+    //var listitems = "";
     var listholder = document.getElementById("result");
     listholder.innerHTML = "";
     var i;
@@ -197,6 +126,7 @@ function llenar(transaction, results){
             +'<div class="card-footer">'+row.fecha+'</div>'
             +'</div>';
     }
+    listholder.style.marginBottom='60px';
 
 }
 function borrar() {
@@ -210,55 +140,24 @@ function borrar() {
         alert("db not found, your browser does not support web sql!");
     }
 }
-    function fromServerNoticias(){
-        $.ajax({
-            url:'http://desde9.esy.es/noticias.php',
-            data:'id=',
-            type:'POST',
-            dataType:'json',
-            error:function(jqXHR,text_status,strError){
-                alert('no internet connection');
-            },
-            timeout:60000,
-            success:function(data){
-                //$("#result").html("");
-                borrar();
-                add(data);
-            }
-        });
-        
-    }
-function fromServerNotificaciones(){
-    var nc1 = window.localStorage.getItem('nControl');
-          var nc2 = window.localStorage.getItem('nControl2');
+
+function fromServerNoticias(){
     $.ajax({
-        url:'http://desde9.esy.es/notificaciones.php',
-        type:'GET',
-        data:'type=padre2nc&nControl='+nc1+'&nControl2='+nc2,
+        url:'http://desde9.esy.es/noticias.php',
+        data:'id=',
+        type:'POST',
         dataType:'json',
         error:function(jqXHR,text_status,strError){
             alert('no internet connection');
         },
         timeout:60000,
         success:function(data){
-            $("#resultNot").html("");
-            //clear();
-            //add(data);
-            for(var i in data){
-                $("#resultNot").append(
-                   '<div class="card">'
-                    //+'<div class="card-header">'+data[i].titulo+'</div>'
-                    +'<div class="card-content">'
-                    +'<div class="card-content-inner">'+data[i].contenido+'</div>'
-                    +'</div>'
-                    +'<div class="card-footer">'+data[i].fecha+'</div>'
-                    +'</div>');
-            }
+            //$("#result").html("");
+            borrar();
+            add(data);
         }
     });
 }
-
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -273,8 +172,7 @@ var app = {
             "ios": {"alert": "true", "badge": "true", "sound": "true"}, 
             "windows": {} 
         });
-        
-        push.on('notification', function(data) {
+        push.on('notification', function(data){
         	console.log("notification event");
             console.log(JSON.stringify(data));
             
@@ -297,7 +195,6 @@ var app = {
                 console.log('finish successfully called');
             });
         });
-
         push.on('error', function(e) {
             console.log("push error");
             document.getElementById("regId").innerHTML = 'Error';
