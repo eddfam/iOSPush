@@ -38,7 +38,7 @@ if(logueado == "si")
 else
     {
         console.log(logueado);
-        window.location =("#");
+        window.location =("login.html");
     }
 $("#login-button").click(function(event){
             event.preventDefault();
