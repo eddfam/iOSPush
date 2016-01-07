@@ -39,14 +39,15 @@ $(document).ready(function(){
     });
     function fromServerNotificaciones(){
         var tipoUsuario = window.localStorage.getItem('tipo');
+        var cantidadNControl = window.localStorage.getItem('cantidadNControl');
         var nc1 = window.localStorage.getItem('nControl');
         var nc2 = window.localStorage.getItem('nControl2');
         var data;
         if(tipoUsuario=='alumno'){
             data= 'type=alumno&nControl='+nc1;
-        }else if(tipoUsuario=='padre1nc'){
+        }else if(tipoUsuario=='padre'&& cantidadNControl==1){
             data= 'type=padre1nc&nControl='+nc1;
-        }else if(tipoUsuario=='padre2nc'){
+        }else if(tipoUsuario=='padre'&& cantidadNControl==2){
             data= 'type=padre2nc&nControl='+nc1+'&nControl2='+nc2;
         }
         $.ajax({
