@@ -7,6 +7,36 @@ $(document).ready(function(){
         domCache: true //enable inline pages
     });
     var tapped=false;
+    function fromServerPublicaciones(){
+        $.ajax({
+            url:'http://desde9.esy.es/publicaciones.php',
+            data:'id=',
+            type:'POST',
+            dataType:'json',
+            error:function(jqXHR,text_status,strError){
+                alert('no internet connection');
+            },
+            timeout:60000,
+            success:function(data){
+                var listholder = document.getElementById("publicaciones");
+                listholder.innerHTML = "";
+                //clear();
+                //add(data);
+                for(var i in data){
+                    listholder.innerHTML +=
+                        '<div class="card ks-card-header-pic">'
+                        +'<div style="background-image:url('+data[i].imagen+')" valign="bottom" class="card-header color-white no-border">'+data[i].titulo+'</div>'
+                        +'<div class="card-content">'
+                        +'<div class="card-content-inner">'
+                        +'<p class="color-gray">'+data[i].fecha+'</p>'
+                        +'<p>'+data[i].contenido+'</p></div></div>'
+                        +'<div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read more</a </div></div>';
+                }listholder.style.marginBottom='60px';
+                //borrar();
+                //add(data);
+            }
+        });
+    }
     function fromServerNoticias(){
         $.ajax({
             url:'http://desde9.esy.es/noticias.php',
@@ -24,6 +54,19 @@ $(document).ready(function(){
             }
         });
     }
+    $("#btnInicio").on("touchstart",function(e){
+        if(!tapped){
+            tapped=setTimeout(function(){
+                //mostrar();
+                tapped=null;
+            },300); //wait 300ms
+        }else{
+            clearTimeout(tapped);
+            tapped=null;
+            fromServerPublicaciones();
+        }
+        e.preventDefault();
+    });
     $("#btnNoticias").on("touchstart",function(e){
         if(!tapped){
             tapped=setTimeout(function(){
