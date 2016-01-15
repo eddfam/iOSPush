@@ -239,10 +239,6 @@
        document.getElementById("userName").innerHTML = localStorage.getItem("nombreUsuario");
        $("#logout").on("click", function(e){
            e.preventDefault();
-           window.localStorage.removeItem("cantidadNControl");
-           window.localStorage.removeItem("tipo");
-           window.localStorage.removeItem("nControl");
-           window.localStorage.removeItem("nControl2");
            window.location.replace("index.html");
            window.localStorage.setItem("logueado", "no");
        });

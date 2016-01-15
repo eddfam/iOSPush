@@ -9,14 +9,14 @@
     <meta name="theme-color" content="#2196f3">
     <title>Login</title>
     <link rel="stylesheet" href="css/framework7.ios.css">
-    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.css">
     <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
+    <link rel="icon" href="img/cordova_bot.png">
     <style>
         #views{
-            display: none;
+/*            display: none;*/
         }
       </style>
-    
   </head>
   <body>
      <!-- Views -->
@@ -35,9 +35,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-email"></i></div>
                     <div class="item-inner"> 
-<!--                    <div class="item-title label">E-mail</div>-->
+                    <div class="item-title label">E-mail</div>
                     <div class="item-input">
-                        <input name="email" id="email" type="email" placeholder="E-mail"/>
+                        <input name="email" id="email" type="email" placeholder=""/>
                     </div>
                     </div>
                 </div>
@@ -46,9 +46,9 @@
                 <div class="item-content">
                     <div class="item-media"><i class="icon icon-form-password"></i></div>
                     <div class="item-inner"> 
-<!--                    <div class="item-title label">Password</div>-->
+                    <div class="item-title label">Password</div>
                     <div class="item-input">
-                        <input name="password" id="password" type="password" placeholder="Password"/>
+                        <input name="password" id="password" type="password" placeholder=""/>
                     </div>
                     </div>
                 </div>
@@ -58,10 +58,12 @@
                 <div class="list-block">
              
 <div class="content-block"><a id="login-button" class="button button-big">Iniciar sesión</a></div>
+<!--
               
               <div class="registro">
                 <p> <a id="signup-btn" href="#">Si no está registrado pulse aquí</a></p>
               </div>
+-->
             </div>
           </div>
         </div>
@@ -91,14 +93,13 @@ position: absolute;
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/framework7.js"></script>
-      <script type="text/javascript" src="js/index.js"></script>
+      <script type="text/javascript" src="js/signup.js"></script>
       <script>
           $("#signup-btn").click(function(event){
             event.preventDefault();
-              //location.href = "login.html";
+        location.href = "login.html";
           });
 
       </script>
   </body>
-  <img id="cargando" src="img/712.GIF">
 </html>
