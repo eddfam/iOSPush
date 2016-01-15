@@ -28,24 +28,30 @@ var mainView = myApp.addView('.view-main', {
 
 var logueado = localStorage.getItem("logueado");
 var regId = localStorage.getItem("regId");
-alert("logueado: "+logueado " regId: "+regId);
+
 
 if(logueado === "si")
     {
+        alert("logueado: "+logueado " regId: "+regId);
         console.log(logueado);
          window.location.replace("home.html");
     }
-if (logueado=== "no"&& regId===null)
+else if (logueado=== "no"&& regId===null)
     {
+        alert("logueado: "+logueado " regId: "+regId);
         console.log(logueado);
         console.log(regId);
         window.location.replace("login.html");
     }   
-if (logueado=== "no" && regId!=null)
+else if (logueado=== "no" && regId!=null)
     {
+        alert("logueado: "+logueado " regId: "+regId);
         console.log(logueado);
         window.location.replace("signup.html");
     }
+else{
+    alert("logueado: "+logueado " regId: "+regId);
+}
 /*$("#login-button").click(function(event){
             event.preventDefault();
 	        var email = $("#email").val();
