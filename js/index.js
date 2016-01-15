@@ -49,6 +49,12 @@ else if (logueado=== null && regId!=null)
         console.log(logueado);
         window.location.replace("signup.html");
     }
+else if (logueado=== "no" && regId!=null)
+    {
+        alert("logueado: "+logueado+ " regId: "+regId);
+        console.log(logueado);
+        window.location.replace("signup.html");
+    }
 else{
     alert("logueado: "+logueado +" regId: "+regId);
 }
