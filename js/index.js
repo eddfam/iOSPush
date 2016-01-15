@@ -32,25 +32,25 @@ var regId = localStorage.getItem("regId");
 
 if(logueado === "si")
     {
-        alert("logueado: "+logueado " regId: "+regId);
+        alert("logueado: " + logueado + " regId: " + regId);
         console.log(logueado);
-         window.location.replace("home.html");
+         //window.location.replace("home.html");
     }
 else if (logueado=== "no"&& regId===null)
     {
-        alert("logueado: "+logueado " regId: "+regId);
+        alert("logueado: "+logueado +" regId: "+regId);
         console.log(logueado);
         console.log(regId);
-        window.location.replace("login.html");
+        //window.location.replace("login.html");
     }   
 else if (logueado=== "no" && regId!=null)
     {
-        alert("logueado: "+logueado " regId: "+regId);
+        alert("logueado: "+logueado+ " regId: "+regId);
         console.log(logueado);
-        window.location.replace("signup.html");
+        //window.location.replace("signup.html");
     }
 else{
-    alert("logueado: "+logueado " regId: "+regId);
+    alert("logueado: "+logueado +" regId: "+regId);
 }
 /*$("#login-button").click(function(event){
             event.preventDefault();

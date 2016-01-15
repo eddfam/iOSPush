@@ -49,6 +49,7 @@ var app = {
             console.log(data.registrationId);
             //alert(data.registrationId);
             window.localStorage.setItem("regId", data.registrationId);
+            alert("desde:"+window.localStorage.getItem("regId"))
             console.log(JSON.stringify(data));
         });
         push.on('notification', function(data) {
