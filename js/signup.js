@@ -14,7 +14,6 @@ $(document).ready(function ( ) {
 var myApp = new Framework7({
     modalTitle: 'Framework7',
     // Enable Material theme
-    material: true,
     swipePanel: 'left',
 });
 
