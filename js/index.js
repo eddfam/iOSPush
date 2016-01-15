@@ -36,18 +36,18 @@ if(logueado === "si")
         console.log(logueado);
          //window.location.replace("home.html");
     }
-else if (logueado=== "no"&& regId===null)
+else if (logueado=== null&& regId===null)
     {
         alert("logueado: "+logueado +" regId: "+regId);
         console.log(logueado);
         console.log(regId);
-        //window.location.replace("login.html");
+        window.location.replace("login.html");
     }   
-else if (logueado=== "no" && regId!=null)
+else if (logueado=== null && regId!=null)
     {
         alert("logueado: "+logueado+ " regId: "+regId);
         console.log(logueado);
-        //window.location.replace("signup.html");
+        window.location.replace("signup.html");
     }
 else{
     alert("logueado: "+logueado +" regId: "+regId);
