@@ -28,6 +28,7 @@ var mainView = myApp.addView('.view-main', {
 
 var logueado = localStorage.getItem("logueado");
 var regId = localStorage.getItem("regId");
+alert("logueado: "+logueado " regId: "+regId);
 
 if(logueado === "si")
     {
@@ -45,7 +46,7 @@ if (logueado=== "no" && regId!=null)
         console.log(logueado);
         window.location.replace("signup.html");
     }
-$("#login-button").click(function(event){
+/*$("#login-button").click(function(event){
             event.preventDefault();
 	        var email = $("#email").val();
             var password =$("#password").val();
@@ -85,4 +86,4 @@ $("#login-button").click(function(event){
                      }
                  });
              }
-        });
+        });*/
